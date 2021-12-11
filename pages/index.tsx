@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Header from "../components/Header";
+import Navigation from "../components/Navigation";
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <>
       <Head>
         <title>SA Trends Calendar</title>
         <meta
@@ -13,7 +15,9 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-    </div>
+      <Header />
+      <Navigation />
+    </>
   );
 };
 
