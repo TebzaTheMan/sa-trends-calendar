@@ -10,7 +10,7 @@ const Month = ({
   month_name: string;
 }) => {
   const [hover, setHover] = useState(false);
-  let height = "200";
+  let height = ["250", "200"];
   return imageURL == "" ? (
     <Box
       onMouseEnter={() => setHover(true)}

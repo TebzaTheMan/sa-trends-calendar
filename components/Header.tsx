@@ -3,8 +3,8 @@ import { Flex, Spacer } from "@chakra-ui/react";
 
 const Header = () => {
   return (
-    <Flex align={"center"}>
-      <Image src="/logo.svg" alt="logo" boxSize="64px" />
+    <Flex align={"center"} mt={2} ml={[4, 16]} mr={[4, 16]}>
+      <Image src="/logo.svg" alt="logo" boxSize="40px" />
       <Heading as="h1" size="lg" color={"gray.900"}>
         Trends Calendar
       </Heading>

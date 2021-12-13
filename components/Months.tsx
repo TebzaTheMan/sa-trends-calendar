@@ -55,6 +55,8 @@ const Months = () => {
   return (
     <SimpleGrid
       mt={6}
+      ml={[8, 16]}
+      mr={[8, 16]}
       columns={[1, 2, 3, 4]}
       spacingX={["40px"]}
       spacingY={["20px", "50px", "12px"]}
