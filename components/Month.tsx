@@ -19,7 +19,7 @@ const Month = ({
       <Text fontSize={"xl"} color={hover ? "gray.600" : "white"}>
         {month_name}
       </Text>
-      <Center bg="#70008F" h={height} color="white">
+      <Center bg="primary" h={height} color="white">
         {hover ? (
           <IconButton
             aria-label="add image link"

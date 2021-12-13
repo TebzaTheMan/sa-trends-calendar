@@ -10,7 +10,7 @@ const Header = () => {
       </Heading>
       <Spacer />
       <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo">
-        <AvatarBadge boxSize="1.25em" bg="green.500" />
+        <AvatarBadge boxSize="1.25em" bg="primary" />
       </Avatar>
     </Flex>
   );
