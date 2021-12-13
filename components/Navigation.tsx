@@ -5,7 +5,7 @@ import { Flex, Spacer } from "@chakra-ui/react";
 const Navigation = () => {
   const theme = useTheme();
   return (
-    <Flex align={"center"}>
+    <Flex align={"center"} mt={6}>
       <Spacer />
       <IconButton
         aria-label="Previous year"
