@@ -1,9 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Months from "../components/Months";
-import Navigation from "../components/Navigation";
 
 const Home: NextPage = () => {
   return (
@@ -17,10 +13,6 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
-      <Navigation />
-      <Months />
-      <Footer />
     </>
   );
 };
