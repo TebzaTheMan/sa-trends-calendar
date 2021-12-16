@@ -33,7 +33,6 @@ const signInWithGoogle = async () => {
         await addDoc(collection(db, "users"), {
         uid: user.uid,
         name: user.displayName,
-        authProvider: "google",
         email: user.email,
         moderator:false,
   });
@@ -54,7 +53,6 @@ const signInWithTwitter = async () => {
         await addDoc(collection(db, "users"), {
         uid: user.uid,
         name: user.displayName,
-        authProvider: "twitter",
         email: user.email,
         moderator:false,
   });

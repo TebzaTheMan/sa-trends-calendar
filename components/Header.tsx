@@ -21,22 +21,11 @@ import { FiMessageCircle, FiPower } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { FaTwitter } from "react-icons/fa";
 import { Flex, Spacer, Spinner } from "@chakra-ui/react";
-import {
-  auth,
-  db,
-  signInWithTwitter,
-  signInWithGoogle,
-  logout,
-} from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { query, collection, where } from "firebase/firestore";
-
+import { signInWithTwitter, signInWithGoogle, logout } from "../firebase";
+import { useAuth } from "../context/auth.context";
 const Header = () => {
-  const [user, loading] = useAuthState(auth);
-  const [snapshot, collectionLoading] = useCollection(
-    query(collection(db, "users"), where("uid", "==", user ? user.uid : null))
-  );
+  const { user, loading, extraInfo, collectionLoading } = useAuth();
+
   return (
     <Flex align={"center"} mt={4} ml={[4, 16]} mr={[4, 16]}>
       <Image src="/logo.svg" alt="logo" boxSize="40px" />
@@ -46,7 +35,7 @@ const Header = () => {
       <Spacer />
       {loading && collectionLoading ? (
         <Spinner />
-      ) : user ? (
+      ) : user && extraInfo ? (
         <Popover placement={"bottom-end"}>
           <PopoverTrigger>
             <IconButton
@@ -56,9 +45,9 @@ const Header = () => {
                   name={user.photoURL == null ? undefined : user.photoURL}
                   src={user.photoURL == null ? undefined : user.photoURL}
                 >
-                  {snapshot?.docs[0].data().moderator && (
+                  {extraInfo.moderator ? (
                     <AvatarBadge boxSize="1.25em" bg="primary" />
-                  )}
+                  ) : null}
                 </Avatar>
               }
               variant={"ghost"}
@@ -71,7 +60,7 @@ const Header = () => {
                 {user.displayName}
               </Text>
 
-              {snapshot?.docs[0].data().authProvider == "google" ? (
+              {user.providerData[0].providerId == "google.com" ? (
                 <>
                   <Text>{user.email}</Text>
                   <Flex align={"center"} mt={2}>
@@ -88,11 +77,11 @@ const Header = () => {
                   </Flex>
                 </>
               )}
-              {snapshot?.docs[0].data().moderator && (
+              {extraInfo.moderator ? (
                 <Badge variant={"solid"} bg="primary" mt={2}>
                   MODERATOR
                 </Badge>
-              )}
+              ) : null}
               <Divider mt={4} mb={2} />
               <List spacing={7}>
                 <ListItem color={"gray.700"}>
