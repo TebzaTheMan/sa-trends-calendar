@@ -19,11 +19,11 @@ import {
 } from "@chakra-ui/react";
 import { FiMessageCircle, FiPower } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
-import { Flex, Spacer, Spinner } from "@chakra-ui/react";
+import { Flex, Spacer } from "@chakra-ui/react";
 import { signInWithGoogle, logout } from "../firebase";
 import { useAuth } from "../context/auth.context";
 const Header = () => {
-  const { user, loading, extraInfo, collectionLoading } = useAuth();
+  const { user, extraInfo } = useAuth();
 
   return (
     <Flex align={"center"} mt={4} ml={[4, 16]} mr={[4, 16]}>
@@ -32,9 +32,7 @@ const Header = () => {
         Trends Calendar
       </Heading>
       <Spacer />
-      {loading && collectionLoading ? (
-        <Spinner />
-      ) : user && extraInfo ? (
+      {user && extraInfo ? (
         <Popover placement={"bottom-end"}>
           <PopoverTrigger>
             <IconButton

@@ -1,4 +1,4 @@
-import { createContext, FC, useContext, useEffect } from "react";
+import { createContext, FC, useContext } from "react";
 import { User } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { query, collection, where, DocumentData } from "firebase/firestore";
@@ -8,8 +8,6 @@ import { Center, Spinner } from "@chakra-ui/react";
 
 interface IAuth {
   user: User | null | undefined;
-  loading: boolean;
-  collectionLoading: boolean;
   extraInfo: DocumentData | undefined;
   signInWithTwitter?: () => void;
   signInWithGoogle?: () => void;
@@ -17,8 +15,6 @@ interface IAuth {
 
 const AuthContext = createContext<IAuth>({
   user: null,
-  loading: true,
-  collectionLoading: false,
   extraInfo: undefined,
   signInWithTwitter: () => {},
   signInWithGoogle: () => {},
@@ -42,8 +38,6 @@ const AuthProvider: FC = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        loading,
-        collectionLoading,
         extraInfo: values ? values[0] : undefined,
       }}
     >
