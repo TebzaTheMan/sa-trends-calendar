@@ -2,7 +2,11 @@ import type { GetStaticProps, GetStaticPaths } from "next";
 import Head from "next/head";
 import Navigation from "../components/Navigation";
 import Months from "../components/Months";
+import { ParsedUrlQuery } from "querystring";
 
+type parameters = {
+  params: ParsedUrlQuery;
+};
 const YearPage = ({ urls, year }: { urls: string[]; year: number }) => {
   return (
     <>
@@ -22,13 +26,12 @@ const YearPage = ({ urls, year }: { urls: string[]; year: number }) => {
 };
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const res = await fetch(
-    "https://fakerapi.it/api/v1/images?_quantity=12&_type=pokemon"
+    `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/${
+      params!.year
+    }/urls.json`
   );
-  const d = await res.json();
-  const data = d.data;
-  let urls: string[] = [];
-  data.map(({ url }: { url: string }) => urls.push(url));
-  const year = params && params.year;
+  const urls = await res.json();
+  const year = params!.year;
 
   return {
     props: {
@@ -38,8 +41,25 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await fetch(
+    "https://sa-trends-calendar-default-rtdb.firebaseio.com/years.json"
+  );
+  const data = await res.json();
+
+  const years = Object.keys(data);
+  console.log(years);
+  const paths: parameters[] = [];
+
+  years.map((year) => {
+    paths.push({
+      params: {
+        year,
+      },
+    });
+  });
+
   return {
-    paths: [{ params: { year: "2021" } }, { params: { year: "2022" } }],
+    paths,
     fallback: false,
   };
 };
