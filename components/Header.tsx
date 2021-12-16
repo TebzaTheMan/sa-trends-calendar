@@ -14,54 +14,138 @@ import {
   ListItem,
   ListIcon,
   Link,
+  Icon,
+  IconButton,
 } from "@chakra-ui/react";
 import { FiMessageCircle, FiPower } from "react-icons/fi";
-import { Flex, Spacer } from "@chakra-ui/react";
+import { FcGoogle } from "react-icons/fc";
+import { FaTwitter } from "react-icons/fa";
+import { Flex, Spacer, Spinner } from "@chakra-ui/react";
+import {
+  auth,
+  db,
+  signInWithTwitter,
+  signInWithGoogle,
+  logout,
+} from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { query, collection, where } from "firebase/firestore";
 
 const Header = () => {
+  const [user, loading] = useAuthState(auth);
+  const [snapshot, collectionLoading] = useCollection(
+    query(collection(db, "users"), where("uid", "==", user ? user.uid : null))
+  );
   return (
-    <Flex align={"center"} mt={2} ml={[4, 16]} mr={[4, 16]}>
+    <Flex align={"center"} mt={4} ml={[4, 16]} mr={[4, 16]}>
       <Image src="/logo.svg" alt="logo" boxSize="40px" />
       <Heading as="h1" size="lg" color={"gray.900"}>
         Trends Calendar
       </Heading>
       <Spacer />
-      <Popover placement={"bottom-end"} trigger="hover">
-        <PopoverTrigger>
-          <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo">
-            <AvatarBadge boxSize="1.25em" bg="primary" />
-          </Avatar>
-        </PopoverTrigger>
-        <PopoverContent width="100">
-          <PopoverBody>
-            <Text fontSize="lg" fontWeight={"bold"}>
-              Segun Adebayo{" "}
-            </Text>
+      {loading && collectionLoading ? (
+        <Spinner />
+      ) : user ? (
+        <Popover placement={"bottom-end"}>
+          <PopoverTrigger>
+            <IconButton
+              aria-label="avatar"
+              icon={
+                <Avatar
+                  name={user.photoURL == null ? undefined : user.photoURL}
+                  src={user.photoURL == null ? undefined : user.photoURL}
+                >
+                  {snapshot?.docs[0].data().moderator && (
+                    <AvatarBadge boxSize="1.25em" bg="primary" />
+                  )}
+                </Avatar>
+              }
+              variant={"ghost"}
+              isRound
+            />
+          </PopoverTrigger>
+          <PopoverContent width="100">
+            <PopoverBody>
+              <Text fontSize="lg" fontWeight={"bold"}>
+                {user.displayName}
+              </Text>
 
-            <Text fontSize="sm">@SegunAdebayo </Text>
-            <Badge variant={"solid"} bg="primary">
-              MODERATOR
-            </Badge>
-            <Divider mt={4} mb={4} />
-            <List spacing={7}>
-              <Link
-                href="https://twitter.com/messages/compose?recipient_id=4775018429&text=SA-Trends-Calendar%20Feedback:"
-                isExternal
-              >
+              {snapshot?.docs[0].data().authProvider == "google" ? (
+                <>
+                  <Text>{user.email}</Text>
+                  <Flex align={"center"} mt={2}>
+                    <Text mr={2}>Authenticated via</Text>
+                    <Icon as={FcGoogle} />
+                  </Flex>
+                </>
+              ) : (
+                <>
+                  <Text fontSize="sm">@user.twitterHandle</Text>
+                  <Flex align={"center"}>
+                    <Text mr={2}>Authenticated via</Text>
+                    <Icon as={FaTwitter} color={"twitter.500"} />
+                  </Flex>
+                </>
+              )}
+              {snapshot?.docs[0].data().moderator && (
+                <Badge variant={"solid"} bg="primary" mt={2}>
+                  MODERATOR
+                </Badge>
+              )}
+              <Divider mt={4} mb={2} />
+              <List spacing={7}>
                 <ListItem color={"gray.700"}>
-                  <ListIcon as={FiMessageCircle} color={"gray.700"} />
-                  Feedback
+                  <Link
+                    href="https://twitter.com/messages/compose?recipient_id=4775018429&text=SA-Trends-Calendar%20Feedback:"
+                    isExternal
+                  >
+                    <ListIcon as={FiMessageCircle} color={"gray.700"} />
+                    Feedback
+                  </Link>
                 </ListItem>
-              </Link>
 
-              <ListItem color={"gray.700"}>
-                <ListIcon as={FiPower} color={"gray.700"} />
-                Logout
-              </ListItem>
-            </List>
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
+                <ListItem color={"gray.700"}>
+                  <Link onClick={logout}>
+                    <ListIcon as={FiPower} color={"gray.700"} />
+                    Logout
+                  </Link>
+                </ListItem>
+              </List>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      ) : (
+        <Popover placement={"bottom-end"}>
+          <PopoverTrigger>
+            <IconButton
+              aria-label="avatar"
+              icon={<Avatar />}
+              variant={"ghost"}
+              rounded={"full"}
+            />
+          </PopoverTrigger>
+          <PopoverContent width="100">
+            <PopoverBody>
+              <List spacing={7}>
+                <ListItem color={"gray.700"}>
+                  <Link onClick={signInWithGoogle}>
+                    <ListIcon as={FcGoogle} color={"gray.700"} />
+                    Sign in with Google
+                  </Link>
+                </ListItem>
+
+                <ListItem color={"gray.700"}>
+                  <Link onClick={signInWithTwitter}>
+                    <ListIcon as={FaTwitter} color={"twitter.500"} />
+                    Sign in with Twitter
+                  </Link>
+                </ListItem>
+              </List>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      )}
     </Flex>
   );
 };
