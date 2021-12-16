@@ -19,9 +19,8 @@ import {
 } from "@chakra-ui/react";
 import { FiMessageCircle, FiPower } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
-import { FaTwitter } from "react-icons/fa";
 import { Flex, Spacer, Spinner } from "@chakra-ui/react";
-import { signInWithTwitter, signInWithGoogle, logout } from "../firebase";
+import { signInWithGoogle, logout } from "../firebase";
 import { useAuth } from "../context/auth.context";
 const Header = () => {
   const { user, loading, extraInfo, collectionLoading } = useAuth();
@@ -60,23 +59,12 @@ const Header = () => {
                 {user.displayName}
               </Text>
 
-              {user.providerData[0].providerId == "google.com" ? (
-                <>
-                  <Text>{user.email}</Text>
-                  <Flex align={"center"} mt={2}>
-                    <Text mr={2}>Authenticated via</Text>
-                    <Icon as={FcGoogle} />
-                  </Flex>
-                </>
-              ) : (
-                <>
-                  <Text fontSize="sm">@user.twitterHandle</Text>
-                  <Flex align={"center"}>
-                    <Text mr={2}>Authenticated via</Text>
-                    <Icon as={FaTwitter} color={"twitter.500"} />
-                  </Flex>
-                </>
-              )}
+              <Text>{user.email}</Text>
+              <Flex align={"center"} mt={2}>
+                <Text mr={2}>Authenticated via</Text>
+                <Icon as={FcGoogle} />
+              </Flex>
+
               {extraInfo.moderator ? (
                 <Badge variant={"solid"} bg="primary" mt={2}>
                   MODERATOR
@@ -121,13 +109,6 @@ const Header = () => {
                   <Link onClick={signInWithGoogle}>
                     <ListIcon as={FcGoogle} color={"gray.700"} />
                     Sign in with Google
-                  </Link>
-                </ListItem>
-
-                <ListItem color={"gray.700"}>
-                  <Link onClick={signInWithTwitter}>
-                    <ListIcon as={FaTwitter} color={"twitter.500"} />
-                    Sign in with Twitter
                   </Link>
                 </ListItem>
               </List>

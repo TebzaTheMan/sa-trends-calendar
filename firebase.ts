@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth , GoogleAuthProvider ,TwitterAuthProvider, signInWithPopup,signOut } from "firebase/auth";
+import { getAuth , GoogleAuthProvider,signInWithPopup,signOut } from "firebase/auth";
 import { getFirestore ,query,addDoc, collection , where, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -18,7 +18,6 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const googleProvider = new GoogleAuthProvider();
-const twitterProvider = new TwitterAuthProvider();
 googleProvider.addScope('profile');
 googleProvider.addScope('email');
 
@@ -42,26 +41,6 @@ const signInWithGoogle = async () => {
     }
 };
 
-const signInWithTwitter = async () => {
-    try {
-    const res = await signInWithPopup(auth, twitterProvider);
-    const user = res.user;
-    const q = query(collection(db, "users"),where("uid", "==", user.uid));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.docs.length === 0) {
-        await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name: user.displayName,
-        email: user.email,
-        moderator:false,
-  });
-    }
-  } catch (err) {
-    console.error("Failed to signIn with Twitter" + err);
-    }
-}
-
 const logout = () => {
     signOut(auth);
 };
@@ -69,6 +48,5 @@ export {
   auth,
   db,
   signInWithGoogle,
-  signInWithTwitter,
   logout,
 };
