@@ -45,9 +45,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     "https://sa-trends-calendar-default-rtdb.firebaseio.com/years.json"
   );
   const data = await res.json();
-
   const years = Object.keys(data);
-  console.log(years);
   const paths: parameters[] = [];
 
   years.map((year) => {
