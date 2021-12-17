@@ -27,7 +27,12 @@ const Months = ({ urls }: { urls: string[] }) => {
     >
       {urls.map((url, index) => {
         return (
-          <Month key={index} month_name={monthsName[index]} imageURL={url} />
+          <Month
+            key={index}
+            month_name={monthsName[index]}
+            imageURL={url}
+            index={index}
+          />
         );
       })}
     </SimpleGrid>

@@ -23,19 +23,24 @@ import {
   PopoverBody,
   Link,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import { FiPlus, FiHelpCircle } from "react-icons/fi";
 import { useAuth } from "../context/auth.context";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import validator from "validator";
+import axios from "axios";
+import { useRouter } from "next/router";
 interface MyFormValues {
   imageURL: string;
 }
 
 const Month = ({
+  index,
   imageURL,
   month_name,
 }: {
+  index: number;
   imageURL: string;
   month_name: string;
 }) => {
@@ -43,6 +48,8 @@ const Month = ({
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const { user, extraInfo } = useAuth();
   const initialValues: MyFormValues = { imageURL: "" };
+  const toast = useToast();
+  const router = useRouter();
 
   let height = ["250", "200"];
 
@@ -71,14 +78,32 @@ const Month = ({
 
     return error;
   }
-  function handleSubmit(
+  async function handleSubmit(
     values: MyFormValues,
     actions: FormikHelpers<MyFormValues>
   ) {
-    console.log(values);
-    alert(JSON.stringify(values, null, 2));
+    const urlToPatch = {
+      [index]: values.imageURL,
+    };
+    const res = await axios
+      .patch(
+        `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/2021/urls.json`,
+        urlToPatch
+      )
+      .catch((error) => {
+        actions.setFieldError("imageURL", "Error saving image URL to database");
+      });
     actions.setSubmitting(false);
     onToggle();
+    toast({
+      title: "Image URL saved",
+      description: "refreshing the calendar!",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+      position: "top-right",
+    });
+    router.reload();
   }
 
   return imageURL == "" ? (
