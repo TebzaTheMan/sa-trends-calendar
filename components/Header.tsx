@@ -18,6 +18,7 @@ import {
   IconButton,
   Spinner,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import { FiMessageCircle, FiPower } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { Flex, Spacer } from "@chakra-ui/react";
@@ -28,14 +29,34 @@ const Header = () => {
 
   return (
     <Flex align={"center"} mt={4} ml={[4, 16]} mr={[4, 16]}>
-      <Link href="/">
-        <Flex align={"center"}>
-          <Image src="/logo.svg" alt="logo" width="40px" height="40px" />
-          <Heading as="h1" size="lg" color={"gray.900"}>
+      <NextLink href="/year/2021" passHref>
+        <Flex align={"center"} className="logo">
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            width="40px"
+            height="40px"
+            sx={{
+              ".logo:hover &": {
+                cursor: "pointer",
+              },
+            }}
+          />
+          <Heading
+            as="h1"
+            size="lg"
+            color={"gray.900"}
+            sx={{
+              ".logo:hover &": {
+                color: "primary",
+                cursor: "pointer",
+              },
+            }}
+          >
             Trends Calendar
           </Heading>
         </Flex>
-      </Link>
+      </NextLink>
 
       <Spacer />
       {loading ? (
