@@ -164,7 +164,7 @@ const Month = ({
                             >
                               <FormLabel htmlFor="imageURL">
                                 Image URL
-                                <Popover placement="right">
+                                <Popover placement="auto">
                                   <PopoverTrigger>
                                     <IconButton
                                       icon={<FiHelpCircle />}
