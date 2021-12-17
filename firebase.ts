@@ -37,7 +37,7 @@ const signInWithGoogle = async () => {
   });
     }
   } catch (err) {
-    console.error("Failed to signIn with google" + err);
+   
     }
 };
 
