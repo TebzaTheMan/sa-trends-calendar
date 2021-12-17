@@ -66,7 +66,7 @@ const Month = ({
       try {
         const res = await fetch(value);
         const type = res.headers.get("Content-Type");
-        if (type !== "image/jpeg") {
+        if (type ? !type.includes("image") : false) {
           return (error = "URL is not a direct link to an image");
         }
       } catch (e) {
