@@ -30,7 +30,7 @@ const Header = () => {
     <Flex align={"center"} mt={4} ml={[4, 16]} mr={[4, 16]}>
       <Link href="/">
         <Flex align={"center"}>
-          <Image src="/logo.svg" alt="logo" boxSize="40px" />
+          <Image src="/logo.svg" alt="logo" width="40px" height="40px" />
           <Heading as="h1" size="lg" color={"gray.900"}>
             Trends Calendar
           </Heading>
