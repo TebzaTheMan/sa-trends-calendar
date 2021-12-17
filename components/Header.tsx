@@ -16,6 +16,7 @@ import {
   Link,
   Icon,
   IconButton,
+  Spinner,
 } from "@chakra-ui/react";
 import { FiMessageCircle, FiPower } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
@@ -23,7 +24,7 @@ import { Flex, Spacer } from "@chakra-ui/react";
 import { signInWithGoogle, logout } from "../firebase";
 import { useAuth } from "../context/auth.context";
 const Header = () => {
-  const { user, extraInfo } = useAuth();
+  const { user, extraInfo, loading } = useAuth();
 
   return (
     <Flex align={"center"} mt={4} ml={[4, 16]} mr={[4, 16]}>
@@ -37,7 +38,9 @@ const Header = () => {
       </Link>
 
       <Spacer />
-      {user && extraInfo ? (
+      {loading ? (
+        <Spinner color="primary" thickness="4px" />
+      ) : user && extraInfo ? (
         <Popover placement={"bottom-end"}>
           <PopoverTrigger>
             <IconButton

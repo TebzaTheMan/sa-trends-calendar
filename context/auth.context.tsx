@@ -4,15 +4,16 @@ import { auth, db } from "../firebase";
 import { query, collection, where, DocumentData } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { Center, Spinner } from "@chakra-ui/react";
 
 interface IAuth {
   user: User | null | undefined;
+  loading: boolean;
   extraInfo: DocumentData | undefined;
 }
 
 const AuthContext = createContext<IAuth>({
   user: null,
+  loading: true,
   extraInfo: undefined,
 });
 
@@ -22,19 +23,12 @@ const AuthProvider: FC = ({ children }) => {
     query(collection(db, "users"), where("uid", "==", user ? user.uid : null))
   );
 
-  if (loading || collectionLoading) {
-    return (
-      <Center mt={4}>
-        <Spinner size={"lg"} color="primary" thickness="4px" />
-      </Center>
-    );
-  }
-
   return (
     <AuthContext.Provider
       value={{
         user,
         extraInfo: values ? values[0] : undefined,
+        loading: loading || collectionLoading,
       }}
     >
       {children}
