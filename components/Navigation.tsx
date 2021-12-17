@@ -11,7 +11,7 @@ const Navigation = ({ year }: { year: number }) => {
   return (
     <Flex align={"center"} mt={6}>
       <Spacer />
-      <Link href={`/${year - 1}`} passHref>
+      <Link href={`/year/${year - 1}`} passHref>
         <IconButton
           aria-label="Previous year"
           icon={<FiArrowLeft color={theme.colors.primary} />}
@@ -23,7 +23,7 @@ const Navigation = ({ year }: { year: number }) => {
       <Heading as="h1" size="lg" mr={9} ml={9} color="gray.700">
         {year}
       </Heading>
-      <Link href={`/${year + 1}`} passHref>
+      <Link href={`/year/${year + 1}`} passHref>
         <IconButton
           aria-label="Next year"
           icon={<FiArrowRight color={theme.colors.primary} />}

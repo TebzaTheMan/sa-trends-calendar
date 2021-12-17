@@ -5,8 +5,13 @@ module.exports = {
     return [
       {
         source: '/',
-        destination: '/2021',
-        permanent: true,
+        destination: '/year/2021',
+        permanent: false,
+      },
+      {
+        source: '/year',
+        destination: '/year/2021',
+        permanent: false,
       },
     ]
   },
