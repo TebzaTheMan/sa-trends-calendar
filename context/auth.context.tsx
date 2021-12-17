@@ -9,15 +9,11 @@ import { Center, Spinner } from "@chakra-ui/react";
 interface IAuth {
   user: User | null | undefined;
   extraInfo: DocumentData | undefined;
-  signInWithTwitter?: () => void;
-  signInWithGoogle?: () => void;
 }
 
 const AuthContext = createContext<IAuth>({
   user: null,
   extraInfo: undefined,
-  signInWithTwitter: () => {},
-  signInWithGoogle: () => {},
 });
 
 const AuthProvider: FC = ({ children }) => {
