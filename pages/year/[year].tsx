@@ -10,8 +10,8 @@ const YearPage = ({ urls, year }: { urls: string[]; year: number }) => {
         <title>SA Trends Calendar - {year}</title>
         <meta
           name="description"
-          content="SA Trends Calendar is an open source app 
-          showing glimpses of what happened in a year in the iconic calendar style."
+          content={`SA-Trends-Calendar is an open source web app calendar
+          showing trends of the month in South Africa for the year ${year}.`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

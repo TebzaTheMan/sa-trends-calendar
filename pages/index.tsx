@@ -8,8 +8,8 @@ const Home: NextPage = () => {
         <title>SA Trends Calendar</title>
         <meta
           name="description"
-          content="SA Trends Calendar is an open source app 
-          showing glimpses of what happened in a year in the iconic calendar style."
+          content="SA-Trends-Calendar is an open source web app 
+          showing trends of the month in South Africa in the year calendar style."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
