@@ -27,10 +27,15 @@ const Header = () => {
 
   return (
     <Flex align={"center"} mt={4} ml={[4, 16]} mr={[4, 16]}>
-      <Image src="/logo.svg" alt="logo" boxSize="40px" />
-      <Heading as="h1" size="lg" color={"gray.900"}>
-        Trends Calendar
-      </Heading>
+      <Link href="/">
+        <Flex align={"center"}>
+          <Image src="/logo.svg" alt="logo" boxSize="40px" />
+          <Heading as="h1" size="lg" color={"gray.900"}>
+            Trends Calendar
+          </Heading>
+        </Flex>
+      </Link>
+
       <Spacer />
       {user && extraInfo ? (
         <Popover placement={"bottom-end"}>
