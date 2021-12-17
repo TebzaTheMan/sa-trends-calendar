@@ -13,6 +13,7 @@ const YearPage = ({ urls, year }: { urls: string[]; year: number }) => {
           content={`SA-Trends-Calendar is an open source web app calendar
           showing trends of the month in South Africa for the year ${year}.`}
         />
+        <meta property="og:image" content="/og-image.jpeg" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation year={year} />
