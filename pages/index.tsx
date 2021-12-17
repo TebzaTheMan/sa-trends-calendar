@@ -11,6 +11,7 @@ const Home: NextPage = () => {
           content="SA-Trends-Calendar is an open source web app 
           showing trends of the month in South Africa in the year calendar style."
         />
+        <meta property="og:image" content="/og-image.jpeg" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </>
