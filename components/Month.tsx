@@ -182,6 +182,7 @@ const Month = ({
                                         <Link
                                           href="https://postimages.org"
                                           color={"primary"}
+                                          isExternal
                                         >
                                           postimages.org
                                         </Link>{" "}
@@ -189,6 +190,7 @@ const Month = ({
                                         <Link
                                           href="https://imgbb.com"
                                           color={"primary"}
+                                          isExternal
                                         >
                                           imgbb.com
                                         </Link>{" "}
