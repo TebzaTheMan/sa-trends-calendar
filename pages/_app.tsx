@@ -4,7 +4,9 @@ import Layout from "../components/Layout";
 import { AuthProvider } from "../context/auth.context";
 const theme = extendTheme({
   colors: {
-    primary: "#70008F",
+    primary: {
+      500: "#70008F",
+    },
   },
 });
 function MyApp({ Component, pageProps }: AppProps) {

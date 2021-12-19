@@ -14,7 +14,8 @@ const Navigation = ({ year }: { year: number }) => {
           aria-label="Download calendar image"
           icon={<FiDownload />}
           boxSize={16}
-          color="primary"
+          color="white"
+          colorScheme="primary"
         />
       </Link>
       <Spacer />
@@ -25,7 +26,7 @@ const Navigation = ({ year }: { year: number }) => {
             icon={<FiArrowLeft />}
             boxSize={16}
             isDisabled={year - 1 == 2020 ? true : false}
-            color="primary"
+            color="primary.500"
           />
         </Link>
 
@@ -38,7 +39,7 @@ const Navigation = ({ year }: { year: number }) => {
             icon={<FiArrowRight />}
             boxSize={16}
             isDisabled={year + 1 >= currentYear + 1 ? true : false}
-            color="primary"
+            color="primary.500"
           />
         </Link>
       </Flex>

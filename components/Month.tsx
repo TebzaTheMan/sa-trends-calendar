@@ -114,7 +114,7 @@ const Month = ({
       <Text fontSize={"xl"} color={hover ? "gray.600" : "white"}>
         {month_name}
       </Text>
-      <Center bg="primary" h={height} color="white">
+      <Center bg="primary.500" h={height} color="white">
         {hover ? (
           <IconButton
             aria-label="add image link"
@@ -181,7 +181,7 @@ const Month = ({
                                         choosing (my favs :{" "}
                                         <Link
                                           href="https://postimages.org"
-                                          color={"primary"}
+                                          color={"primary.500"}
                                           isExternal
                                         >
                                           postimages.org
@@ -189,7 +189,7 @@ const Month = ({
                                         and{" "}
                                         <Link
                                           href="https://imgbb.com"
-                                          color={"primary"}
+                                          color={"primary.500"}
                                           isExternal
                                         >
                                           imgbb.com
@@ -216,7 +216,7 @@ const Month = ({
                       <ModalFooter>
                         <Button
                           variant="solid"
-                          bg="primary"
+                          bg="primary.500"
                           color="white"
                           type="submit"
                           isLoading={props.isSubmitting}
@@ -236,7 +236,7 @@ const Month = ({
                   <Link
                     href="https://twitter.com/messages/compose?recipient_id=4775018429&text=SA-Trends-Calendar%20Moderator%20Request:"
                     isExternal
-                    color={"primary"}
+                    color={"primary.500"}
                   >
                     {"  "}
                     dm on Twitter
@@ -252,7 +252,7 @@ const Month = ({
                 <Link
                   href="https://twitter.com/messages/compose?recipient_id=4775018429&text=SA-Trends-Calendar%20Moderator%20Request:"
                   isExternal
-                  color={"primary"}
+                  color={"primary.500"}
                 >
                   {"  "}
                   dm on Twitter
