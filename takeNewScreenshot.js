@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getStorage } = require('firebase-admin/storage');
 
-const serviceAccount = process.env['FIREBASE_SERVICE_ACCOUNT'];
+const serviceAccount = JSON.parse(process.env['FIREBASE_SERVICE_ACCOUNT']);
 const year = process.env['YEAR'];
 
 
