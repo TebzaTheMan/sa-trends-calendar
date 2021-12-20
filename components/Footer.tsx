@@ -22,7 +22,7 @@ const Footer = () => {
           <Text fontSize="sm" color={"gray.700"} mr={2}>
             Made with
           </Text>
-          <Icon as={FiCoffee} color={"primary"} viewBox="12 0 55 55" />
+          <Icon as={FiCoffee} color={"primary.500"} viewBox="12 0 55 55" />
           <Spacer />
           <Text fontSize="sm" color={"gray.700"} ml={2}>
             by Tebogo Nomnqa

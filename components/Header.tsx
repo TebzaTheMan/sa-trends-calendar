@@ -48,7 +48,7 @@ const Header = () => {
             color={"gray.900"}
             sx={{
               ".logo:hover &": {
-                color: "primary",
+                color: "primary.500",
                 cursor: "pointer",
               },
             }}
@@ -60,7 +60,7 @@ const Header = () => {
 
       <Spacer />
       {loading ? (
-        <Spinner color="primary" thickness="4px" />
+        <Spinner color="primary.500" thickness="4px" />
       ) : user && extraInfo ? (
         <Popover placement={"bottom-end"}>
           <PopoverTrigger>
@@ -72,7 +72,7 @@ const Header = () => {
                   src={user.photoURL == null ? undefined : user.photoURL}
                 >
                   {extraInfo.moderator ? (
-                    <AvatarBadge boxSize="1.25em" bg="primary" />
+                    <AvatarBadge boxSize="1.25em" bg="primary.500" />
                   ) : null}
                 </Avatar>
               }
@@ -93,7 +93,7 @@ const Header = () => {
               </Flex>
 
               {extraInfo.moderator ? (
-                <Badge variant={"solid"} bg="primary" mt={2}>
+                <Badge variant={"solid"} bg="primary.500" mt={2}>
                   MODERATOR
                 </Badge>
               ) : null}

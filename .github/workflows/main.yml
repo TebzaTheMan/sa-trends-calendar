@@ -1,0 +1,23 @@
+name: Screenshooter
+
+on:
+  repository_dispatch:
+    types: screenshot-calendar
+
+jobs:
+  screenshot:
+    name: screenshot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+      - name: set up node
+        uses: actions/setup-node@v2
+        with:
+          cache: "npm"
+      - run: npm install dotenv puppeteer firebase-admin
+      - run: node takeNewScreenshot.js
+        env:
+          CI: true
+          FIREBASE_SERVICE_ACCOUNT: ${{secrets.FIREBASE_SERVICE_ACCOUNT}}
+          YEAR: ${{github.event.client_payload.year}}
