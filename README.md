@@ -7,9 +7,14 @@
 </h1>
 
 <h4 align="center">an open source web app 
-          showing trends of the month in South Africa in the year calendar style( <a href="https://twitter.com/Musawenkosi_S_M/status/1471935567462027265">Twitter trend</a> ) and makes it easy to download an updated calendar image.</h4>
+          showing trends of the month in South Africa in the year calendar style( <a href="https://twitter.com/Musawenkosi_S_M/status/1471935567462027265">from a Twitter trend</a> ) and makes it easy to download an updated calendar image.</h4>
 
 <br />
+
+[![Screenshooter](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/main.yml)
+
+![screenshot](public/og-image.jpeg)
+
 ## How to use
 
 To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
