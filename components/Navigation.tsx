@@ -1,23 +1,34 @@
-import { Heading, IconButton } from "@chakra-ui/react";
+import { Heading, IconButton, Spinner } from "@chakra-ui/react";
 import { FiArrowLeft, FiArrowRight, FiDownload } from "react-icons/fi";
 import { Flex, Spacer } from "@chakra-ui/react";
 import Link from "next/link";
+import { ref } from "firebase/storage";
+import { useDownloadURL } from "react-firebase-hooks/storage";
+import { storage } from "../firebase";
 
 const Navigation = ({ year }: { year: number }) => {
+  const [value, Loading] = useDownloadURL(
+    ref(storage, `calendar-screenshots/${year}.jpg`)
+  );
   let d = new Date();
   let currentYear = d.getFullYear();
 
   return (
     <Flex align={"center"} mt={6} ml={[4, 16]} mr={[4, 16]}>
-      <Link href={"https://i.postimg.cc/gjDjVCy5/feb.jpg"} passHref>
-        <IconButton
-          aria-label="Download calendar image"
-          icon={<FiDownload />}
-          boxSize={16}
-          color="white"
-          colorScheme="primary"
-        />
-      </Link>
+      {Loading ? (
+        <Spinner color="primary.500" thickness="4px" />
+      ) : (
+        <Link href={value!} passHref>
+          <IconButton
+            aria-label="Download calendar image"
+            icon={<FiDownload />}
+            boxSize={16}
+            color="white"
+            colorScheme="primary"
+          />
+        </Link>
+      )}
+
       <Spacer />
       <Flex align={"center"}>
         <Link href={`/year/${year - 1}`} passHref>
