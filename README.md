@@ -13,7 +13,23 @@
 
 [![Screenshooter](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/main.yml)
 
-![screenshot](public/og-image.jpeg)
+![screenshot](/public/og-image.jpeg)
+
+## Key Features
+
+- View latest SA trends calendar
+- Easily download calendar image
+- Updated by authenticated users who are moderators (to prevent spam)
+
+## Technology Stack
+
+- NextJS - Frontend
+- Chakra UI - UI components library
+- Firebase authentication
+- Firebase Firestore - authenticated users meta data
+- Firebase Realtime database - storing the image urls
+- Firebase storage - storing screenshots of the calendars
+- Puppeeter - taking screenshots everytime a change to calendar is made
 
 ## How to use
 
