@@ -31,7 +31,6 @@ import { Formik, Form, Field, FormikHelpers } from "formik";
 import validator from "validator";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { Console } from "console";
 interface MyFormValues {
   imageURL: string;
 }
@@ -88,7 +87,7 @@ const Month = ({
     };
     const res = await axios
       .patch(
-        `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/2021/urls.json`,
+        `https://sa-trends-calendar-default-rtdb.firebaseio.com/years//urls.json`,
         urlToPatch
       )
       .catch((error) => {
