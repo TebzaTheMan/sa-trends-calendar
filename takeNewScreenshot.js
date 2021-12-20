@@ -1,8 +1,11 @@
+require('dotenv').config();
 const puppeteer = require('puppeteer');
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getStorage } = require('firebase-admin/storage');
 
-const serviceAccount = require('./firebase/serviceAccountKey.json');
+const serviceAccount = process.env['FIREBASE_SERVICE_ACCOUNT'];
+const year = process.env['YEAR'];
+
 
 initializeApp({
   credential: cert(serviceAccount),
@@ -13,7 +16,7 @@ async function takeScreenshot() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 1025 });
-    await page.goto('http://localhost:3000/en/year/2021',{
+    await page.goto(`https://sacalendar.vercel.app/en/year/${year}`,{
     waitUntil: 'networkidle2',
   });
     await page.evaluate(() => {
@@ -32,7 +35,7 @@ async function takeScreenshot() {
         
         copyrightText.innerHTML = "fresh copy of the calendar downloaded at https://sacalendar.vercel.app";
     });
-   await page.screenshot({ path: 'screenshot.jpg', clip: { x: 0, y: 50, width: 1440, height: 937 } });
+   await page.screenshot({ path: `${year}-screenshot.jpg`, clip: { x: 0, y: 50, width: 1440, height: 937 } });
    await browser.close();
    console.log('screenshot captured successfully');
 }
@@ -40,8 +43,8 @@ async function takeScreenshot() {
 async function uploadImage() {
   try {
      const bucket = getStorage().bucket();
-     await bucket.upload("screenshot.jpg", {
-        destination: "calendar-screenshots/2021.jpg",
+     await bucket.upload(`${year}-screenshot.jpg`, {
+        destination: `calendar-screenshots/${year}.jpg`,
     });
   console.log('screenshot successfully uploaded!');
   } catch (error) {
