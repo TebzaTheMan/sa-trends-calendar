@@ -13,7 +13,9 @@ async function takeScreenshot() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 1025 });
-    await page.goto('http://localhost:3000/en/year/2021');
+    await page.goto('http://localhost:3000/en/year/2021',{
+    waitUntil: 'networkidle2',
+  });
     await page.evaluate(() => {
         let logo = document.querySelector('.css-70qvj9');
         let madeWithText = document.getElementsByClassName('css-70qvj9')[2];
