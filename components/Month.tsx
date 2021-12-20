@@ -118,7 +118,7 @@ const Month = ({
         }
       )
       .catch((error) => {});
-    // router.reload();
+    router.reload();
   }
 
   return imageURL == "" ? (
