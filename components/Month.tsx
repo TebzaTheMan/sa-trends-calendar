@@ -31,6 +31,7 @@ import { Formik, Form, Field, FormikHelpers } from "formik";
 import validator from "validator";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { Console } from "console";
 interface MyFormValues {
   imageURL: string;
 }
@@ -103,6 +104,20 @@ const Month = ({
       isClosable: true,
       position: "top-right",
     });
+    const screenshotRes = await axios
+      .post(
+        `/api.github.com/repos/TebzaTheMan/sa-trends-calendar/dispatches`,
+        { event_type: "screenshot-calendar", year: "2021" },
+        {
+          headers: {
+            Accept: "application / vnd.github.everest - preview + json",
+            Authorization: `${process.env.NEXT_PUBLIC_GITHUB_PAT}`,
+          },
+        }
+      )
+      .catch((error) => {
+        console.error(error.message);
+      });
     router.reload();
   }
 
