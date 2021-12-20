@@ -105,19 +105,22 @@ const Month = ({
     });
     const screenshotRes = await axios
       .post(
-        `/api.github.com/repos/TebzaTheMan/sa-trends-calendar/dispatches`,
-        { event_type: "screenshot-calendar", year: "2021" },
+        "https://api.github.com/repos/TebzaTheMan/sa-trends-calendar/dispatches",
+        {
+          event_type: "screenshot-calendar",
+          client_payload: { year: router.query.year },
+        },
         {
           headers: {
             Accept: "application / vnd.github.everest - preview + json",
-            Authorization: `${process.env.NEXT_PUBLIC_GITHUB_PAT}`,
+            Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_PAT}`,
           },
         }
       )
       .catch((error) => {
         console.error(error.message);
       });
-    router.reload();
+    // router.reload();
   }
 
   return imageURL == "" ? (
