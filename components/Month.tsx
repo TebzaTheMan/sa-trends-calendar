@@ -87,7 +87,7 @@ const Month = ({
     };
     const res = await axios
       .patch(
-        `https://sa-trends-calendar-default-rtdb.firebaseio.com/years//urls.json`,
+        `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/${router.query.year}/urls.json`,
         urlToPatch
       )
       .catch((error) => {
