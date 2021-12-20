@@ -117,9 +117,7 @@ const Month = ({
           },
         }
       )
-      .catch((error) => {
-        console.error(error.message);
-      });
+      .catch((error) => {});
     // router.reload();
   }
 
