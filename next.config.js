@@ -1,16 +1,18 @@
 /** @type {import('next').NextConfig} */
+let d = new Date();
+let currentYear = d.getFullYear();
 module.exports = {
   reactStrictMode: true,
     async redirects() {
     return [
       {
         source: '/',
-        destination: '/year/2021',
+        destination: `/year/${currentYear}`,
         permanent: false,
       },
       {
         source: '/year',
-        destination: '/year/2021',
+        destination: `/year/${currentYear}`,
         permanent: false,
       },
     ]
