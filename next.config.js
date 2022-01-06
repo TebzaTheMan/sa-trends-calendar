@@ -21,4 +21,7 @@ module.exports = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    domains:['i.postimg.cc','i.ibb.co']
+  }
 }

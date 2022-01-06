@@ -4,7 +4,6 @@ import {
   Center,
   IconButton,
   Text,
-  Image,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -31,6 +30,7 @@ import { Formik, Form, Field, FormikHelpers } from "formik";
 import validator from "validator";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Image from "next/image";
 interface MyFormValues {
   imageURL: string;
 }
@@ -194,8 +194,7 @@ const Month = ({
                                     <PopoverBody>
                                       <Text fontWeight={"normal"}>
                                         The way this works is you upload an
-                                        image on a free image hosting of your
-                                        choosing (my favs :{" "}
+                                        image on a free image hosting{" "}
                                         <Link
                                           href="https://postimages.org"
                                           color={"primary.500"}
@@ -203,7 +202,7 @@ const Month = ({
                                         >
                                           postimages.org
                                         </Link>{" "}
-                                        and{" "}
+                                        or{" "}
                                         <Link
                                           href="https://imgbb.com"
                                           color={"primary.500"}
@@ -211,8 +210,7 @@ const Month = ({
                                         >
                                           imgbb.com
                                         </Link>{" "}
-                                        ) and copy and paste the direct link
-                                        here!
+                                        and copy and paste the direct link here!
                                       </Text>
                                     </PopoverBody>
                                   </PopoverContent>
@@ -285,13 +283,16 @@ const Month = ({
       <Text fontSize={"xl"} color={"gray.600"}>
         {month_name}
       </Text>
-      <Image
-        height={height}
-        width={"100%"}
-        src={imageURL}
-        alt={`${month_name} trend`}
-        fit="cover"
-      />
+      <Box height={height} width="100%" sx={{ position: "relative" }}>
+        <Image
+          layout="fill"
+          objectFit="cover"
+          src={imageURL}
+          alt={`${month_name} trend`}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMsYOifCQADgQGaQYZS1gAAAABJRU5ErkJggg=="
+        />
+      </Box>
     </Box>
   );
 };
