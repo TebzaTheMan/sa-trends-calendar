@@ -39,10 +39,12 @@ const Month = ({
   index,
   imageURL,
   month_name,
+  placeholder_color,
 }: {
   index: number;
   imageURL: string;
   month_name: string;
+  placeholder_color: string;
 }) => {
   const [hover, setHover] = useState(false);
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
@@ -129,7 +131,7 @@ const Month = ({
       <Text fontSize={"xl"} color={hover ? "gray.600" : "white"}>
         {month_name}
       </Text>
-      <Center bg="primary.500" h={height} color="white">
+      <Center bg={placeholder_color} h={height} color="white">
         {hover ? (
           <IconButton
             aria-label="add image link"

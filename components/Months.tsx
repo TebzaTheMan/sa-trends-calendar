@@ -1,7 +1,13 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import Month from "./Month";
 
-const Months = ({ urls }: { urls: string[] }) => {
+const Months = ({
+  urls,
+  placeholder_color,
+}: {
+  urls: string[];
+  placeholder_color: string;
+}) => {
   const monthsName = [
     "January",
     "February",
@@ -31,6 +37,7 @@ const Months = ({ urls }: { urls: string[] }) => {
             month_name={monthsName[index]}
             imageURL={url}
             index={index}
+            placeholder_color={placeholder_color}
           />
         );
       })}

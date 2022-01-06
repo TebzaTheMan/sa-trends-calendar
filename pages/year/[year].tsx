@@ -3,7 +3,15 @@ import Head from "next/head";
 import Navigation from "../../components/Navigation";
 import Months from "../../components/Months";
 
-const YearPage = ({ urls, year }: { urls: string[]; year: number }) => {
+const YearPage = ({
+  urls,
+  year,
+  placeholder_color,
+}: {
+  urls: string[];
+  year: number;
+  placeholder_color: string;
+}) => {
   return (
     <>
       <Head>
@@ -17,7 +25,7 @@ const YearPage = ({ urls, year }: { urls: string[]; year: number }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation year={year} />
-      <Months urls={urls} />
+      <Months urls={urls} placeholder_color={placeholder_color} />
     </>
   );
 };
@@ -32,14 +40,23 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     };
   }
   const res = await fetch(
-    `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/${year}/urls.json`
+    `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/${year}.json`
   );
-  const urls = await res.json();
+  const data = await res.json();
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+  const placeholder_color = data.placeholder_color;
+  const urls = data.urls;
 
   return {
     props: {
       urls,
       year,
+      placeholder_color,
     },
   };
 };
