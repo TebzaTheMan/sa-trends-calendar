@@ -15,7 +15,7 @@ initializeApp({
 async function takeScreenshot() {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.setViewport({ width: 1440, height: 1025 });
+    await page.setViewport({ width: 992, height: 860 });
     await page.goto(`https://sacalendar.vercel.app/en/year/${year}`,{
     waitUntil: 'networkidle2',
   });
@@ -35,7 +35,7 @@ async function takeScreenshot() {
         
         copyrightText.innerHTML = "fresh copy of the calendar downloaded at https://sacalendar.vercel.app";
     });
-   await page.screenshot({ path: `${year}-screenshot.jpg`, clip: { x: 0, y: 50, width: 1440, height: 937 } });
+   await page.screenshot({ path: `${year}-screenshot.jpg`, clip: { x: 0, y: 60, width:992, height: 800 } });
    await browser.close();
    console.log('screenshot captured successfully');
 }
