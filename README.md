@@ -11,9 +11,9 @@
 
 <br />
 
-[![Screenshooter](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/main.yml)
+[![Screenshooter](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/main.yml) [![Manual-ScreenShooter](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/manual%20screenshooter.yml/badge.svg)](https://github.com/TebzaTheMan/sa-trends-calendar/actions/workflows/manual%20screenshooter.yml)
 
-![screenshot](/public/og-image.jpeg)
+![screenshot](https://firebasestorage.googleapis.com/v0/b/sa-trends-calendar.appspot.com/o/calendar-screenshots%2F2022.jpg?alt=media&token=f1cf12e3-4a61-4cbc-bf37-4d0f7df55818)
 
 ## Key Features
 
