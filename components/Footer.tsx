@@ -31,7 +31,7 @@ const Footer = () => {
 
         <Spacer />
         <Flex>
-          <Link href={"https://twitter.com/TebogoNomnqa"} isExternal>
+          <Link href={"https://twitter.com/sa_trends_cal"} isExternal>
             <IconButton
               aria-label="Twitter"
               variant={"outline"}
