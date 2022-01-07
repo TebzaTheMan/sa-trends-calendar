@@ -16,23 +16,18 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
   Link,
-  FormErrorMessage,
   useToast,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import { FiPlus, FiHelpCircle } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { useAuth } from "../context/auth.context";
 import { Formik, Form, Field, FormikHelpers } from "formik";
-import validator from "validator";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
 interface MyFormValues {
-  imageURL: string;
+  imageFile: string;
 }
 
 const Month = ({
@@ -49,78 +44,116 @@ const Month = ({
   const [hover, setHover] = useState(false);
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const { user, extraInfo } = useAuth();
-  const initialValues: MyFormValues = { imageURL: "" };
+  const initialValues: MyFormValues = { imageFile: "" };
   const toast = useToast();
   const router = useRouter();
+  const [base64, setBase64] = useState("");
 
   let height = ["250", "200"];
 
-  const validURLOptions = {
-    protocols: ["https"],
-    require_valid_protocol: true,
-    require_host: true,
-  };
-  async function validateURL(value: string) {
-    let error;
-    if (!value) {
-      error = "URL is required";
-    } else if (validator.isURL(value, validURLOptions)) {
-      try {
-        const res = await fetch(value);
-        const type = res.headers.get("Content-Type");
-        if (type ? !type.includes("image") : false) {
-          return (error = "URL is not a direct link to an image");
-        }
-      } catch (e) {
-        error = "URL is not a direct link to an image";
-      }
-    } else {
-      error = "invalid URL";
+  const handleFileChange = (e: any) => {
+    let file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const binaryString = reader.result;
+        const b64 = binaryString!.toString().split("base64,")[1];
+        setBase64(b64);
+      };
+      reader.readAsDataURL(file);
     }
+  };
 
-    return error;
-  }
   async function handleSubmit(
     values: MyFormValues,
     actions: FormikHelpers<MyFormValues>
   ) {
-    const urlToPatch = {
-      [index]: values.imageURL,
-    };
-    const res = await axios
-      .patch(
-        `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/${router.query.year}/urls.json`,
-        urlToPatch
-      )
-      .catch((error) => {
-        actions.setFieldError("imageURL", "Error saving image URL to database");
-      });
-    actions.setSubmitting(false);
-    onToggle();
-    toast({
-      title: "Image URL saved",
-      description: "refreshing the calendar!",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-      position: "top-right",
-    });
-    const screenshotRes = await axios
+    // upload to img storage
+    const bodyFormData = new FormData();
+    bodyFormData.append("image", base64);
+    axios
       .post(
-        "https://api.github.com/repos/TebzaTheMan/sa-trends-calendar/dispatches",
-        {
-          event_type: "screenshot-calendar",
-          client_payload: { year: router.query.year },
-        },
+        `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+        bodyFormData,
         {
           headers: {
-            Accept: "application / vnd.github.everest - preview + json",
-            Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_PAT}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       )
-      .catch((error) => {});
-    router.reload();
+      .then((res) => {
+        // patch URL
+        const urlToPatch = {
+          [index]: res.data.data.url,
+        };
+        axios
+          .patch(
+            `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/${router.query.year}/urls.json`,
+            urlToPatch
+          )
+          .then(() => {
+            // trigger screenshooter!
+            axios
+              .post(
+                "https://api.github.com/repos/TebzaTheMan/sa-trends-calendar/dispatches",
+                {
+                  event_type: "screenshot-calendar",
+                  client_payload: { year: router.query.year },
+                },
+                {
+                  headers: {
+                    Accept: "application / vnd.github.everest - preview + json",
+                    Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_PAT}`,
+                  },
+                }
+              )
+              .then((res) => {
+                onToggle();
+                toast({
+                  title: "Image URL saved",
+                  description: "refreshing the calendar!",
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                  position: "top-right",
+                });
+                router.reload();
+              })
+              .catch((error) => {
+                toast({
+                  title: "Error taking screenshot of updated Calendar",
+                  description: error.message,
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                  position: "top-right",
+                });
+                onToggle();
+              });
+          })
+          .catch((error) => {
+            toast({
+              title: "Error saving image URL to database",
+              description: error.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+              position: "top-right",
+            });
+            onToggle();
+          });
+      })
+      .catch((error) => {
+        toast({
+          title: "Couldn't upload image to server",
+          description: error.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+        onToggle();
+      });
   }
 
   return imageURL == "" ? (
@@ -169,61 +202,24 @@ const Month = ({
                   {(props) => (
                     <Form>
                       <ModalBody>
-                        <Field name="imageURL" validate={validateURL}>
+                        <Field name="imageFile">
                           {/*TODO: remove explicit any types */}
                           {({ field, form }: { field: any; form: any }) => (
                             <FormControl
-                              id="imageURL"
+                              id="imageFile"
                               isInvalid={
-                                form.errors.imageURL && form.touched.imageURL
+                                form.errors.imageFile && form.touched.imageFile
                               }
                               isRequired
                             >
-                              <FormLabel htmlFor="imageURL">
-                                Image URL
-                                <Popover placement="auto">
-                                  <PopoverTrigger>
-                                    <IconButton
-                                      icon={<FiHelpCircle />}
-                                      aria-label="Help"
-                                      boxSize={8}
-                                      variant={"ghost"}
-                                    />
-                                  </PopoverTrigger>
-                                  <PopoverContent>
-                                    <PopoverBody>
-                                      <Text fontWeight={"normal"}>
-                                        The way this works is you upload an
-                                        image on a free image hosting{" "}
-                                        <Link
-                                          href="https://postimages.org"
-                                          color={"primary.500"}
-                                          isExternal
-                                        >
-                                          postimages.org
-                                        </Link>{" "}
-                                        or{" "}
-                                        <Link
-                                          href="https://imgbb.com"
-                                          color={"primary.500"}
-                                          isExternal
-                                        >
-                                          imgbb.com
-                                        </Link>{" "}
-                                        and copy and paste the direct link here!
-                                      </Text>
-                                    </PopoverBody>
-                                  </PopoverContent>
-                                </Popover>
-                              </FormLabel>
+                              <FormLabel htmlFor="imageFile">Image</FormLabel>
                               <Input
-                                {...field}
-                                id="imageURL"
-                                placeholder="https://"
+                                id="imageFile"
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                onChange={handleFileChange}
+                                variant="unstyled"
                               />
-                              <FormErrorMessage>
-                                {form.errors.imageURL}
-                              </FormErrorMessage>
                             </FormControl>
                           )}
                         </Field>
@@ -235,6 +231,7 @@ const Month = ({
                           color="white"
                           type="submit"
                           isLoading={props.isSubmitting}
+                          disabled={base64 == "" || props.isSubmitting}
                         >
                           Save
                         </Button>
