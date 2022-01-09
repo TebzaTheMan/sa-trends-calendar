@@ -21,8 +21,9 @@ import {
 import NextLink from "next/link";
 import { FiMessageCircle, FiPower } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
+import { BsTwitter } from "react-icons/bs";
 import { Flex, Spacer } from "@chakra-ui/react";
-import { signInWithGoogle, logout } from "../firebase";
+import { signInWithGoogle, logout, signInWithTwitter } from "../firebase";
 import { useAuth } from "../context/auth.context";
 const Header = () => {
   const { user, extraInfo, loading } = useAuth();
@@ -86,10 +87,18 @@ const Header = () => {
                 {user.displayName}
               </Text>
 
-              <Text>{user.email}</Text>
+              <Text>
+                {user.providerData[0].providerId == "google.com"
+                  ? user.email
+                  : `@${extraInfo.username}`}
+              </Text>
               <Flex align={"center"} mt={2}>
                 <Text mr={2}>Authenticated via</Text>
-                <Icon as={FcGoogle} />
+                {user.providerData[0].providerId == "google.com" ? (
+                  <Icon as={FcGoogle} />
+                ) : (
+                  <Icon as={BsTwitter} color={"twitter.500"} />
+                )}
               </Flex>
 
               {extraInfo.moderator ? (
@@ -136,6 +145,12 @@ const Header = () => {
                   <Link onClick={signInWithGoogle}>
                     <ListIcon as={FcGoogle} color={"gray.700"} />
                     Sign in with Google
+                  </Link>
+                </ListItem>
+                <ListItem color={"gray.700"}>
+                  <Link onClick={signInWithTwitter}>
+                    <ListIcon as={BsTwitter} color={"twitter.500"} />
+                    Sign in with Twitter
                   </Link>
                 </ListItem>
               </List>

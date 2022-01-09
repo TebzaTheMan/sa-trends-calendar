@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAuth , GoogleAuthProvider,signInWithPopup,signOut } from "firebase/auth";
-import { getFirestore ,query,addDoc, collection , where, getDocs } from "firebase/firestore";
+import { getAuth , GoogleAuthProvider,TwitterAuthProvider, signInWithPopup,signOut, getAdditionalUserInfo } from "firebase/auth";
+import { getFirestore , addDoc, collection } from "firebase/firestore";
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -23,14 +23,16 @@ const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope('profile');
 googleProvider.addScope('email');
 
+const twitterProvider = new TwitterAuthProvider();
+twitterProvider.addScope('profile');
+
 const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
-    const q = query(collection(db, "users"),where("uid", "==", user.uid));
-    const querySnapshot = await getDocs(q);
+    const details = getAdditionalUserInfo(res);
 
-    if (querySnapshot.docs.length === 0) {
+    if (details?.isNewUser) {
         await addDoc(collection(db, "users"), {
         uid: user.uid,
         name: user.displayName,
@@ -42,6 +44,25 @@ const signInWithGoogle = async () => {
    
     }
 };
+const signInWithTwitter = async () => {
+  try {
+    const res = await signInWithPopup(auth, twitterProvider);
+    const details = getAdditionalUserInfo(res);
+    const user = res.user;
+
+    if (details?.isNewUser) {
+        await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        username:details.username,
+        moderator:false,
+    });
+    }
+  } catch (err) {
+   console.log(err)
+    }
+};
 
 const logout = () => {
     signOut(auth);
@@ -51,5 +72,6 @@ export {
   db,
   storage,
   signInWithGoogle,
+  signInWithTwitter,
   logout,
 };
