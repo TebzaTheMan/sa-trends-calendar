@@ -54,7 +54,6 @@ const signInWithTwitter = async () => {
         await addDoc(collection(db, "users"), {
         uid: user.uid,
         name: user.displayName,
-        email: user.email,
         username:details.username,
         moderator:false,
     });
