@@ -241,36 +241,44 @@ const Month = ({
                 </Formik>
               </>
             ) : (
-              <ModalBody>
-                <Text>
-                  You have to be a moderator to make changes to the calendar. To
-                  request to be a moderator, send me a
+              <>
+                <ModalBody>
+                  <Text>
+                    You have to be a moderator to make changes to the calendar.
+                    To request to be a moderator, send a
+                  </Text>
+                </ModalBody>
+                <ModalFooter>
                   <Link
-                    href="https://twitter.com/messages/compose?recipient_id=4775018429&text=SA-Trends-Calendar%20Moderator%20Request:"
+                    href="https://twitter.com/messages/compose?recipient_id=1479496476527153154&text=SA-Trends-Calendar%20Moderator%20Request:"
                     isExternal
                     color={"primary.500"}
                   >
                     {"  "}
                     dm on Twitter
                   </Link>
-                </Text>
-              </ModalBody>
+                </ModalFooter>
+              </>
             )
           ) : (
-            <ModalBody>
-              <Text>
-                You have to be signed in and be a moderator to make changes to
-                the calendar. To request to be a moderator, send me a
+            <>
+              <ModalBody>
+                <Text>
+                  You have to be signed in and be a moderator to make changes to
+                  the calendar. To request to be a moderator, send a
+                </Text>
+              </ModalBody>
+              <ModalFooter>
                 <Link
-                  href="https://twitter.com/messages/compose?recipient_id=4775018429&text=SA-Trends-Calendar%20Moderator%20Request:"
+                  href="https://twitter.com/messages/compose?recipient_id=1479496476527153154&text=SA-Trends-Calendar%20Moderator%20Request:"
                   isExternal
                   color={"primary.500"}
                 >
                   {"  "}
                   dm on Twitter
                 </Link>
-              </Text>
-            </ModalBody>
+              </ModalFooter>
+            </>
           )}
         </ModalContent>
       </Modal>

@@ -110,7 +110,7 @@ const Header = () => {
               <List spacing={7}>
                 <ListItem color={"gray.700"}>
                   <Link
-                    href="https://twitter.com/messages/compose?recipient_id=4775018429&text=SA-Trends-Calendar%20Feedback:"
+                    href="https://twitter.com/messages/compose?recipient_id=1479496476527153154&text=SA-Trends-Calendar%20Feedback:"
                     isExternal
                   >
                     <ListIcon as={FiMessageCircle} color={"gray.700"} />
