@@ -6,15 +6,21 @@ import { ref } from "firebase/storage";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { storage } from "../firebase";
 import { useRouter } from "next/router";
+import { useAnalyticsEvent } from "../hooks/useAnalytics";
 
 const Navigation = ({ year }: { year: number }) => {
   const [value, loading] = useDownloadURL(
     ref(storage, `calendar-screenshots/${year}.jpg`)
   );
   const router = useRouter();
+  const { trackCustomEvent } = useAnalyticsEvent();
   let d = new Date();
   let currentYear = d.getFullYear();
 
+  const download = () => {
+    router.push(value!);
+    trackCustomEvent({ eventName: `download-${year}-screenshot` });
+  };
   return (
     <Flex align={"center"} mt={6} ml={[4, 16]} mr={[4, 16]}>
       <IconButton
@@ -24,7 +30,7 @@ const Navigation = ({ year }: { year: number }) => {
         color="white"
         colorScheme="primary"
         isLoading={loading}
-        onClick={() => router.push(value!)}
+        onClick={() => download()}
       />
       <Spacer />
       <Flex align={"center"}>

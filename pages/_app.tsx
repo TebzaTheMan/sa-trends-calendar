@@ -2,6 +2,8 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import Layout from "../components/Layout";
 import { AuthProvider } from "../context/auth.context";
+import { useAnalyticsInstance } from "../hooks/useAnalytics";
+
 const theme = extendTheme({
   colors: {
     primary: {
@@ -10,6 +12,7 @@ const theme = extendTheme({
   },
 });
 function MyApp({ Component, pageProps }: AppProps) {
+  useAnalyticsInstance();
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>

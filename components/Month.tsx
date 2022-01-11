@@ -18,7 +18,6 @@ import {
   Input,
   Link,
   useToast,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
 import { useAuth } from "../context/auth.context";
