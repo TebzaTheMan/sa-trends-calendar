@@ -64,7 +64,6 @@ const NoImage = ({
     onClose();
     setBase64("");
   };
-
   async function handleSubmit(
     values: MyFormValues,
     actions: FormikHelpers<MyFormValues>
@@ -72,57 +71,73 @@ const NoImage = ({
     // upload to img storage
     const bodyFormData = new FormData();
     bodyFormData.append("image", base64);
-    axios
-      .post(
-        `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
-        bodyFormData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
-      .then((res) => {
-        // patch URL
-        const urlToPatch = {
-          [index]: res.data.data.url,
-        };
+    user!
+      .getIdToken()
+      .then((token) => {
         axios
-          .patch(
-            `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/${router.query.year}/urls.json`,
-            urlToPatch
+          .post(
+            `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+            bodyFormData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
           )
-          .then(() => {
-            // trigger screenshooter!
+          .then((res) => {
+            // patch URL
+            const urlToPatch = {
+              [index]: res.data.data.url,
+            };
             axios
-              .post(
-                "https://api.github.com/repos/TebzaTheMan/sa-trends-calendar/dispatches",
-                {
-                  event_type: "screenshot-calendar",
-                  client_payload: { year: router.query.year },
-                },
-                {
-                  headers: {
-                    Accept: "application / vnd.github.everest - preview + json",
-                    Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_PAT}`,
-                  },
-                }
+              .patch(
+                `https://sa-trends-calendar-default-rtdb.firebaseio.com/years/${router.query.year}/urls.json?auth=${token}`,
+                urlToPatch
               )
-              .then((res) => {
-                onToggle();
-                toast({
-                  title: "Image URL saved",
-                  description: "refreshing the calendar!",
-                  status: "success",
-                  duration: 9000,
-                  isClosable: true,
-                  position: "top-right",
-                });
-                router.reload();
+              .then(() => {
+                // trigger screenshooter!
+                axios
+                  .post(
+                    "https://api.github.com/repos/TebzaTheMan/sa-trends-calendar/dispatches",
+                    {
+                      event_type: "screenshot-calendar",
+                      client_payload: { year: router.query.year },
+                    },
+                    {
+                      headers: {
+                        Accept:
+                          "application / vnd.github.everest - preview + json",
+                        Authorization: `token ${process.env.NEXT_PUBLIC_GITHUB_PAT}`,
+                      },
+                    }
+                  )
+                  .then((res) => {
+                    onToggle();
+                    toast({
+                      title: "Image URL saved",
+                      description: "refreshing the calendar!",
+                      status: "success",
+                      duration: 9000,
+                      isClosable: true,
+                      position: "top-right",
+                    });
+                    router.reload();
+                  })
+                  .catch((error) => {
+                    toast({
+                      title: "Error taking screenshot of updated Calendar",
+                      description: error.message,
+                      status: "error",
+                      duration: 9000,
+                      isClosable: true,
+                      position: "top-right",
+                    });
+                    onToggle();
+                  });
               })
               .catch((error) => {
                 toast({
-                  title: "Error taking screenshot of updated Calendar",
+                  title: "Error saving image URL to database",
                   description: error.message,
                   status: "error",
                   duration: 9000,
@@ -134,7 +149,7 @@ const NoImage = ({
           })
           .catch((error) => {
             toast({
-              title: "Error saving image URL to database",
+              title: "Couldn't upload image to server",
               description: error.message,
               status: "error",
               duration: 9000,
@@ -146,14 +161,13 @@ const NoImage = ({
       })
       .catch((error) => {
         toast({
-          title: "Couldn't upload image to server",
+          title: "Error encountered with your user account!",
           description: error.message,
           status: "error",
           duration: 9000,
           isClosable: true,
           position: "top-right",
         });
-        onToggle();
       });
   }
 
