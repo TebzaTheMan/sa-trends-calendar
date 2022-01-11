@@ -60,6 +60,11 @@ const NoImage = ({
     }
   };
 
+  const onModalClose = () => {
+    onClose();
+    setBase64("");
+  };
+
   async function handleSubmit(
     values: MyFormValues,
     actions: FormikHelpers<MyFormValues>
@@ -153,34 +158,36 @@ const NoImage = ({
   }
 
   return (
-    <Box
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <Text fontSize={"xl"} color={hover ? "gray.600" : "white"}>
-        {month_name}
-      </Text>
-      <Center bg={placeholder_color} h={height} color="white">
-        {hover ? (
-          <IconButton
-            aria-label="add image link"
-            icon={<FiPlus color="black" />}
-            isRound={true}
-            variant={"solid"}
-            onClick={onOpen}
-          />
-        ) : (
-          <Text
-            fontSize={"xl"}
-            align={"center"}
-            justifyContent={"center"}
-            color={"white"}
-          >
-            {month_name}
-          </Text>
-        )}
-      </Center>
-      <Modal isOpen={isOpen} onClose={onClose}>
+    <>
+      <Box
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <Text fontSize={"xl"} color={hover ? "gray.600" : "white"}>
+          {month_name}
+        </Text>
+        <Center bg={placeholder_color} h={height} color="white">
+          {hover ? (
+            <IconButton
+              aria-label="add image link"
+              icon={<FiPlus color="black" />}
+              isRound={true}
+              variant={"solid"}
+              onClick={onOpen}
+            />
+          ) : (
+            <Text
+              fontSize={"xl"}
+              align={"center"}
+              justifyContent={"center"}
+              color={"white"}
+            >
+              {month_name}
+            </Text>
+          )}
+        </Center>
+      </Box>
+      <Modal isOpen={isOpen} onClose={onModalClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add Image for {month_name}</ModalHeader>
@@ -200,7 +207,7 @@ const NoImage = ({
                       <ModalBody>
                         <Field name="imageFile">
                           {/*TODO: remove explicit any types */}
-                          {({ field, form }: { field: any; form: any }) => (
+                          {({ form }: { form: any }) => (
                             <FormControl
                               id="imageFile"
                               isInvalid={
@@ -278,7 +285,7 @@ const NoImage = ({
           )}
         </ModalContent>
       </Modal>
-    </Box>
+    </>
   );
 };
 
