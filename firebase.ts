@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth , GoogleAuthProvider,TwitterAuthProvider, signInWithPopup,signOut, getAdditionalUserInfo } from "firebase/auth";
-import { getFirestore , addDoc, collection } from "firebase/firestore";
+import { getDatabase, ref, set } from "firebase/database";
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -16,7 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db = getDatabase(app);
 const storage = getStorage(app);
 
 const googleProvider = new GoogleAuthProvider();
@@ -33,12 +33,10 @@ const signInWithGoogle = async () => {
     const details = getAdditionalUserInfo(res);
 
     if (details?.isNewUser) {
-        await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name: user.displayName,
-        email: user.email,
-        moderator:false,
-  });
+          await set(ref(db, 'users/' + user.uid), {
+            moderator: false,
+            name: user.displayName,
+        });
     }
   } catch (err) {
    
@@ -49,14 +47,12 @@ const signInWithTwitter = async () => {
     const res = await signInWithPopup(auth, twitterProvider);
     const details = getAdditionalUserInfo(res);
     const user = res.user;
-
     if (details?.isNewUser) {
-        await addDoc(collection(db, "users"), {
-        uid: user.uid,
+      await set(ref(db, 'users/' + user.uid), {
+        moderator: false,
         name: user.displayName,
-        username:details.username,
-        moderator:false,
-    });
+        username: details.username,
+      });
     }
   } catch (err) {
    console.log(err)

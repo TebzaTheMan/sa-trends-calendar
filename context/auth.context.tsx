@@ -1,10 +1,10 @@
 import { createContext, FC, useContext } from "react";
 import { User } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { query, collection, where, DocumentData } from "firebase/firestore";
+import { DocumentData } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-
+import { ref } from "firebase/database";
+import { useObjectVal } from "react-firebase-hooks/database";
 interface IAuth {
   user: User | null | undefined;
   loading: boolean;
@@ -19,16 +19,15 @@ const AuthContext = createContext<IAuth>({
 
 const AuthProvider: FC = ({ children }) => {
   const [user, loading] = useAuthState(auth);
-  const [values, collectionLoading] = useCollectionData(
-    query(collection(db, "users"), where("uid", "==", user ? user.uid : null))
+  const [values, objectLoading, error] = useObjectVal(
+    ref(db, `/users/${user ? user.uid : undefined}`)
   );
-
   return (
     <AuthContext.Provider
       value={{
         user,
-        extraInfo: values ? values[0] : undefined,
-        loading: loading || collectionLoading,
+        extraInfo: values,
+        loading: loading || objectLoading,
       }}
     >
       {children}
