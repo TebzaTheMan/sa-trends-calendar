@@ -26,10 +26,11 @@
 - NextJS - Frontend
 - Chakra UI - UI components library
 - Firebase authentication
-- Firebase Firestore - authenticated users meta data
-- Firebase Realtime database - storing the image urls
+- Firebase Realtime database - storing image urls and user metadata
 - Firebase storage - storing screenshots of the calendars
-- Puppeeter - taking screenshots everytime a change to calendar is made
+- Puppeeter - takes screenshots everytime calendar is updated
+- Vercel - Hosting
+- Goat Counter - privacy-friendly web analytics
 
 ## How to use
 
