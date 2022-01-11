@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   let d = new Date();
   let currentYear = d.getFullYear();
 
-  if (year <= 2020 || year > currentYear + 1) {
+  if (year <= 2020 || year >= currentYear + 1) {
     return {
       notFound: true,
     };

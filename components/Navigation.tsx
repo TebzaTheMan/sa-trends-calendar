@@ -52,7 +52,7 @@ const Navigation = ({ year }: { year: number }) => {
             aria-label="Next year"
             icon={<FiArrowRight />}
             boxSize={16}
-            isDisabled={year + 1 > currentYear + 1 ? true : false}
+            isDisabled={year + 1 >= currentYear + 1 ? true : false}
             color="primary.500"
           />
         </Link>
