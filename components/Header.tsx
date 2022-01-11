@@ -27,10 +27,12 @@ import { signInWithGoogle, logout, signInWithTwitter } from "../firebase";
 import { useAuth } from "../context/auth.context";
 const Header = () => {
   const { user, extraInfo, loading } = useAuth();
+  let d = new Date();
+  let currentYear = d.getFullYear();
 
   return (
     <Flex align={"center"} mt={4} ml={[4, 16]} mr={[4, 16]}>
-      <NextLink href="/year/2021" passHref>
+      <NextLink href={`/year/${currentYear}`} passHref>
         <Flex align={"center"} className="logo">
           <Image
             src="/logo.svg"
