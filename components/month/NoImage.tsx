@@ -20,23 +20,20 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
-import { useAuth } from "../context/auth.context";
+import { useAuth } from "../../context/auth.context";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Image from "next/image";
 interface MyFormValues {
   imageFile: string;
 }
 
-const Month = ({
+const NoImage = ({
   index,
-  imageURL,
   month_name,
   placeholder_color,
 }: {
   index: number;
-  imageURL: string;
   month_name: string;
   placeholder_color: string;
 }) => {
@@ -48,7 +45,7 @@ const Month = ({
   const router = useRouter();
   const [base64, setBase64] = useState("");
 
-  let height = ["250", "200"];
+  const height = ["250", "200"];
 
   const handleFileChange = (e: any) => {
     let file = e.target.files[0];
@@ -155,7 +152,7 @@ const Month = ({
       });
   }
 
-  return imageURL == "" ? (
+  return (
     <Box
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -282,23 +279,7 @@ const Month = ({
         </ModalContent>
       </Modal>
     </Box>
-  ) : (
-    <Box>
-      <Text fontSize={"xl"} color={"gray.600"}>
-        {month_name}
-      </Text>
-      <Box height={height} width="100%" sx={{ position: "relative" }}>
-        <Image
-          layout="fill"
-          objectFit="cover"
-          src={imageURL}
-          alt={`${month_name} trend`}
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMsYOifCQADgQGaQYZS1gAAAABJRU5ErkJggg=="
-        />
-      </Box>
-    </Box>
   );
 };
 
-export default Month;
+export default NoImage;

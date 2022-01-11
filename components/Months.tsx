@@ -1,5 +1,6 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import Month from "./Month";
+import NoImage from "./month/NoImage";
+import WithImage from "./month/WithImage";
 
 const Months = ({
   urls,
@@ -31,13 +32,18 @@ const Months = ({
       spacingX={["10px"]}
     >
       {urls.map((url, index) => {
-        return (
-          <Month
+        return url == "" ? (
+          <NoImage
+            key={index}
+            month_name={monthsName[index]}
+            index={index}
+            placeholder_color={placeholder_color}
+          />
+        ) : (
+          <WithImage
             key={index}
             month_name={monthsName[index]}
             imageURL={url}
-            index={index}
-            placeholder_color={placeholder_color}
           />
         );
       })}
